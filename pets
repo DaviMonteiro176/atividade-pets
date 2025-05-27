@@ -1,0 +1,49 @@
+erDiagram
+    Owner ||--o{ Pet : owns
+    Owner ||--o{ Post : posts
+    Owner }o--o{ Pet : follows (Follow)
+    Owner }o--o{ Pet : likes (Like)
+
+    Owner {
+        INT owner_id PK
+        VARCHAR name
+        VARCHAR email UK
+        VARCHAR password_hash
+        DATETIME created_at
+    }
+
+    Pet {
+        INT pet_id PK
+        INT owner_id FK
+        VARCHAR name
+        VARCHAR species "e.g., dog, cat"
+        VARCHAR breed
+        DATE birth_date
+        VARCHAR profile_picture_url
+        TEXT bio
+        DATETIME created_at
+    }
+
+    Post {
+        INT post_id PK
+        INT owner_id FK
+        TEXT content_text
+        VARCHAR content_image_url "Optional"
+        DATETIME created_at
+    }
+
+    Follow {
+        INT follow_id PK
+        INT follower_owner_id FK "FK to Owner"
+        INT followed_pet_id FK "FK to Pet"
+        DATETIME created_at
+        UK(follower_owner_id, followed_pet_id) "Unique constraint"
+    }
+
+    Like {
+        INT like_id PK
+        INT liker_owner_id FK "FK to Owner"
+        INT liked_pet_id FK "FK to Pet"
+        DATETIME created_at
+        UK(liker_owner_id, liked_pet_id) "Unique constraint"
+    }
